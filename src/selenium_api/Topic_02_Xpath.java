@@ -19,13 +19,15 @@ public class Topic_02_Xpath {
 
 		// Firefox
 		driver = new FirefoxDriver();
-		driver.get("http://live.guru99.com");
+
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 
 	@Test
 	public void TC_01_CheckurlAndTitle() {
+		// Step 1: Truy cập vào trang http://live.guru99.com
+		driver.get("http://live.guru99.com");
 		// Step 2: Kiểm tra title của page là Home page
 		String homePageTitle = driver.getTitle();
 
@@ -60,6 +62,26 @@ public class Topic_02_Xpath {
 	@Test
 	public void TC_02_EmailAndPasswordEmpty() {
 
+		// Step 1: Truy cập vào trang http://live.guru99.com
+		driver.get("http://live.guru99.com");
+
+		// Step 2: Click vào link "My account" để tới trang đăng nhập
+		driver.findElement(By.xpath("//div[@class=\"footer\"]//a[@title='My Account']")).click();
+
+		//Step 3: Để trống username/password
+		driver.findElement(By.xpath("//input[@id='email']")).sendKeys();
+		driver.findElement(By.xpath("//input[@id='password']")).sendKeys();
+		
+		//Step 4: Click login button
+		driver.findElement(By.id("send2")).click();
+		
+		//Step 5: Verify error message xuất hiện tại 2 field: This is a required field.
+		
+		String emailErrorMessage = driver.findElement(By.id("advice-required-entry-email")).getText();
+		Assert.assertEquals(emailErrorMessage, "This is a required field.");
+		
+		String PasswordErrorMessage = driver.findElement(By.id("advice-required-entry-email")).getText();
+		Assert.assertEquals(PasswordErrorMessage, "This is a required field.");
 	}
 
 	@Test
