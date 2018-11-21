@@ -1,10 +1,13 @@
 package selenium_api;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -95,7 +98,26 @@ public class Topic_03_WebBrowser_WebElement {
 	@Test
 	
 	public void TC_02_WebElement() {
+		/*-----WEB ELEMENT------*/
 		
+		// Cách 1: Action trực tiếp lên step ( click/sendkey/gettext/...)
+		driver.findElement(By.id("email")).sendKeys("");
+		
+		//Cách 2: Dùng lại element này
+		
+		WebElement emailTextbox = driver.findElement(By.id("email"));
+		emailTextbox.clear();
+		emailTextbox.sendKeys("");
+		emailTextbox.click();
+		
+		// Xóa data trước khi sendkey chỉ có textbox/textarea/dropdown
+		emailTextbox.clear();
+		//input data vào
+		emailTextbox.sendKeys("Automation Testing");
+		
+		emailTextbox.findElement(By.xpath("//input[@id='pass']"));
+		
+		List <WebElement> homePageLink = driver.findElements(By.xpath("//a"));
 	}
 
 	@AfterClass
