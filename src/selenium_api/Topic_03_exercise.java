@@ -20,6 +20,7 @@ public class Topic_03_exercise {
 	By passwordByTextBox = By.xpath("//input[@id='password']");
 	By biographyTextArea = By.xpath("//textarea[@id='bio']");
 	By developmentByCheckbox = By.xpath("//input[@id='development']");
+	By sliderByDisable = By.xpath("//input[@id='slider-2']");
 
 	@BeforeClass
 	public void beforeClass() {
@@ -60,6 +61,7 @@ public class Topic_03_exercise {
 		// Disabled
 		Assert.assertFalse(isControlEnabled(passwordByTextBox));
 		Assert.assertFalse(isControlEnabled(biographyTextArea));
+		Assert.assertFalse(isControlEnabled(sliderByDisable));
 	}
 
 	@Test

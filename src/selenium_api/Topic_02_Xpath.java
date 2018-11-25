@@ -1,6 +1,5 @@
 package selenium_api;
 
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -103,7 +102,7 @@ public class Topic_02_Xpath {
 	@Test
 	public void TC_06_ReturnToSystem() {
 		
-		String firstname = "Selenium", lastname ="Online 07", email= "seleniumonline" + randomEmail() + "@gmail.com", password ="123456";
+		String firstname = "Selenium", lastname ="Online 07", email= "seleniumonline" + Commons.randomEmail() + "@gmail.com", password ="123456";
 		
 		System.out.println("Email random =" + email);
 		// Step 1: Truy cập vào trang http://live.guru99.com
@@ -143,13 +142,6 @@ public class Topic_02_Xpath {
 	public void afterClass() {
 		driver.quit();
 	}
-	
-	public int randomEmail() {
-		Random random = new Random();
-		int number = random.nextInt(999999);
-		System.out.println("Random number =" + number);
-		return number;
-		
-	}
+
 
 }
