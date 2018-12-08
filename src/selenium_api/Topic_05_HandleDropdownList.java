@@ -5,10 +5,10 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -18,16 +18,16 @@ import org.testng.annotations.Test;
 
 public class Topic_05_HandleDropdownList {
 	WebDriver driver;
-
 	WebDriverWait waitExplicit;
+	JavascriptExecutor javaExecutor;
 	@BeforeClass
 	public void beforeClass() {
 
 		// Firefox
 		driver = new FirefoxDriver();
 		waitExplicit = new WebDriverWait(driver, 30);
+		javaExecutor = (JavascriptExecutor) driver;
 		
-		driver.get("https://www.google.com/");
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
@@ -75,12 +75,27 @@ public class Topic_05_HandleDropdownList {
 		
 		driver.get("https://demos.telerik.com/kendo-ui/dropdownlist/index ");
 		
-		selectItemInCustomDropdown("//span[@id='number-button']", "//ul[@id='number-menu']//li[@class='ui-menu-item']" , "19");
+		selectItemInCustomDropdown("//span[@aria-owns='color_listbox']", "//ul[@id='color_listbox']/li" , "Orange");
+		Assert.assertTrue(driver.findElement(By.xpath("//span[@aria-owns='color_listbox']//span[@class='k-input' and text()='Orange']")).isDisplayed());
+		Thread.sleep(3000);
+		
+		
+		selectItemInCustomDropdown("//span[@aria-owns='color_listbox']", "//ul[@id='color_listbox']/li" , "Grey");
+		Assert.assertTrue(driver.findElement(By.xpath("//span[@aria-owns='color_listbox']//span[@class='k-input' and text()='Grey']")).isDisplayed());
+		Thread.sleep(3000);
+		
+		selectItemInCustomDropdown("//span[@aria-owns='color_listbox']", "//ul[@id='color_listbox']/li" , "Black");
+		Assert.assertTrue(driver.findElement(By.xpath("//span[@aria-owns='color_listbox']//span[@class='k-input' and text()='Black']")).isDisplayed());
+		Thread.sleep(3000);
+		
 	}
 	public void selectItemInCustomDropdown(String parentXpath, String childXpath , String expectedItem) {
 		
 		//Click vao dropdown
 		WebElement element = driver.findElement(By.xpath(parentXpath));
+		
+		//Scroll tới element (Cha)
+		javaExecutor.executeScript("arguments[0].scrollIntoViewIfNeeded(true);", element);
 		element.click();
 		
 		//Get tất cả item trong dropdown vào 1 list element (List <WebElement>)
@@ -96,6 +111,8 @@ public class Topic_05_HandleDropdownList {
 			
 			//Nếu actual text = expected text thì click vào phần tử đó và break khỏi vòng lặp
 			if(textItem.equals(expectedItem)) {
+				//Scroll tới expected item để click(item nó không visible)
+				javaExecutor.executeScript("arguments[0].scrollIntoViewIfNeeded(true);", child);
 				child.click();
 				break;
 			}
